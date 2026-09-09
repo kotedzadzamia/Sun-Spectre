@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Sun Spectre Logo</title>
+  <desc id="desc">A circular gradient mark with a central light core and orbital ring.</desc>
+  <defs>
+    <linearGradient id="ring" x1="34" y1="28" x2="166" y2="172" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F9B45E"/>
+      <stop offset="0.48" stop-color="#8F6CFF"/>
+      <stop offset="1" stop-color="#4FD9FF"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 100) rotate(90) scale(78)">
+      <stop offset="0" stop-color="#FFF7E9"/>
+      <stop offset="0.45" stop-color="#FFC77F"/>
+      <stop offset="1" stop-color="#171A23"/>
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="100" r="92" stroke="url(#ring)" stroke-width="10"/>
+  <circle cx="100" cy="100" r="74" fill="url(#core)"/>
+  <circle cx="100" cy="100" r="14" fill="#FFFFFF" fill-opacity="0.95"/>
+  <ellipse cx="100" cy="100" rx="94" ry="36" transform="rotate(-20 100 100)" stroke="#DDE7FF" stroke-opacity="0.65" stroke-width="5"/>
+</svg>

@@ -1,5 +1,8 @@
-/capabilities /capabilities.html 200
+/capabilities /services.html 301
+/services /services.html 200
+/products /products.html 200
 /industries /industries.html 200
 /insights /insights.html 200
 /about /about.html 200
 /contact /contact.html 200
+/talk-to-us /talk-to-us.html 200
