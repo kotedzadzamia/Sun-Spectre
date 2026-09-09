@@ -1,4 +1,5 @@
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SCHEDULER_URL = 'https://calendly.com/your-team/sun-spectre-30min';
 
 const header = document.querySelector('[data-header]');
 const menu = document.querySelector('[data-menu]');
@@ -60,3 +61,7 @@ if (heroVisual && !reduced) {
 
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
+
+document.querySelectorAll('[data-scheduler-link]').forEach((link) => {
+  link.setAttribute('href', SCHEDULER_URL);
+});
