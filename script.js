@@ -162,11 +162,28 @@ document.addEventListener('scroll', () => header?.classList.toggle('scrolled', s
 
 const menuToggle = document.querySelector('[data-menu-toggle]');
 const mobileMenu = document.querySelector('[data-menu]');
-menuToggle?.addEventListener('click', () => {
-  const open = mobileMenu?.classList.toggle('open');
-  menuToggle.setAttribute('aria-expanded', String(Boolean(open)));
+
+function setMobileMenu(open) {
+  if (!menuToggle || !mobileMenu) return;
+  mobileMenu.classList.toggle('open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
   menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+  document.body.classList.toggle('menu-open', open);
+}
+
+menuToggle?.addEventListener('click', () => {
+  setMobileMenu(!mobileMenu?.classList.contains('open'));
 });
+mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMobileMenu(false)));
+document.addEventListener('click', event => {
+  if (innerWidth < 980 && mobileMenu?.classList.contains('open') && !header?.contains(event.target)) setMobileMenu(false);
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') setMobileMenu(false);
+});
+window.addEventListener('resize', () => {
+  if (innerWidth >= 980) setMobileMenu(false);
+}, { passive:true });
 
 if ('IntersectionObserver' in window && !reduceMotion) {
   const observer = new IntersectionObserver(entries => entries.forEach(entry => {
