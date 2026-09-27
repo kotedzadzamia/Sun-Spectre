@@ -5,9 +5,14 @@ const menus = {
     label: 'PRODUCTS',
     feature: { title: 'Sun Spectre Control View', text: 'A unified executive view across AI, cyber, technology risk and assurance.', href: 'products.html#control-view', cta: 'Explore the product' },
     columns: [
-      { title: 'AI Governance Launchpad', text: 'Stand up accountable AI governance in weeks.', href: 'products.html#ai-launchpad' },
-      { title: 'Cyber Resilience Baseline', text: 'Find the exposures that matter and prioritize action.', href: 'products.html#cyber-baseline' },
-      { title: 'Digital Risk Reporting Pack', text: 'Turn technical risk into board-ready decisions.', href: 'products.html#reporting-pack' }
+      { title: 'AI and Data', text: 'Govern AI and data as one strategic asset.', href: 'products.html#ai-data' },
+      { title: 'Cloud', text: 'Modernize on cloud without losing control.', href: 'products.html#cloud' },
+      { title: 'Cybersecurity', text: 'Threat-informed defense and resilience.', href: 'products.html#cybersecurity' },
+      { title: 'IT Audit', text: 'Independent, risk-based technology assurance.', href: 'products.html#it-audit' },
+      { title: 'Information Security', text: 'Policy, architecture and control design.', href: 'products.html#information-security' },
+      { title: 'Managed Services', text: 'Security, risk and compliance, run for you.', href: 'products.html#managed-services' },
+      { title: 'Marketing and Experience', text: 'Trust-led brand and digital experience.', href: 'products.html#marketing-experience' },
+      { title: 'Technology Transformation', text: 'De-risk modernization and platform change.', href: 'products.html#technology-transformation' }
     ],
     footer: { lead: 'Not sure where to start?', text: 'Compare packaged engagements and advisory options.', links: [['View all products','products.html'],['Talk to an advisor','talk-to-us.html']] }
   },
@@ -39,6 +44,9 @@ const menus = {
     label: 'INSIGHTS',
     feature: { title: 'The AI control plane', text: 'Why AI governance needs to become an operating system for decisions and evidence.', href: 'insights.html#ai-control-plane', cta: 'Read the perspective' },
     columns: [
+      { title: 'What is AI?', text: 'A leadership primer beyond the hype.', href: 'insights.html#what-is-ai' },
+      { title: 'What are deepfakes?', text: 'The trust threat leaders can no longer ignore.', href: 'insights.html#deepfakes' },
+      { title: 'Emerging risks 2027', text: 'The signals leadership should be watching now.', href: 'insights.html#emerging-risks-2027' },
       { title: 'Cyber resilience after prevention', text: 'Design continuity and recoverability as security outcomes.', href: 'insights.html#cyber-resilience' },
       { title: 'From audit to continuous assurance', text: 'Use better signals without compromising independence.', href: 'insights.html#continuous-assurance' },
       { title: 'Board reporting that drives action', text: 'Connect technical evidence to business exposure and decisions.', href: 'insights.html#board-reporting' },
@@ -216,6 +224,7 @@ document.querySelectorAll('.faq-item button').forEach(button => {
 document.querySelectorAll('form[data-mail-form]').forEach(form => {
   form.addEventListener('submit', e => {
     e.preventDefault();
+    const to = form.dataset.mailTo || 'hello@sunspectre.com';
     const data = new FormData(form);
     const subject = encodeURIComponent(`Sun Spectre inquiry — ${data.get('organization') || data.get('name') || 'Website'}`);
     const body = encodeURIComponent([
@@ -226,6 +235,6 @@ document.querySelectorAll('form[data-mail-form]').forEach(form => {
       '',
       `${data.get('message') || ''}`
     ].join('\n'));
-    location.href = `mailto:hello@sunspectre.com?subject=${subject}&body=${body}`;
+    location.href = `mailto:${to}?subject=${subject}&body=${body}`;
   });
 });
