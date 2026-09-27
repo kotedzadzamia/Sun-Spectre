@@ -222,19 +222,40 @@ document.querySelectorAll('.faq-item button').forEach(button => {
 });
 
 document.querySelectorAll('form[data-mail-form]').forEach(form => {
-  form.addEventListener('submit', e => {
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const idleLabel = submitBtn ? submitBtn.textContent : '';
+  let status = form.querySelector('[data-form-status]');
+  if (!status) {
+    status = document.createElement('p');
+    status.setAttribute('data-form-status', '');
+    form.appendChild(status);
+  }
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const to = form.dataset.mailTo || 'hello@sunspectre.com';
-    const data = new FormData(form);
-    const subject = encodeURIComponent(`Sun Spectre inquiry — ${data.get('organization') || data.get('name') || 'Website'}`);
-    const body = encodeURIComponent([
-      `Name: ${data.get('name') || ''}`,
-      `Work email: ${data.get('email') || ''}`,
-      `Organization: ${data.get('organization') || ''}`,
-      `Interest: ${data.get('interest') || ''}`,
-      '',
-      `${data.get('message') || ''}`
-    ].join('\n'));
-    location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    const payload = Object.fromEntries(new FormData(form).entries());
+    payload.form = form.dataset.form || 'contact';
+
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+    status.textContent = '';
+    status.className = 'form-status';
+
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(result.error || 'Something went wrong. Please try again.');
+      form.reset();
+      status.textContent = 'Thank you — your message has been sent. We will be in touch shortly.';
+      status.classList.add('form-status', 'success');
+    } catch (err) {
+      status.textContent = err.message || 'We could not send your message. Please email us directly.';
+      status.classList.add('form-status', 'error');
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = idleLabel; }
+    }
   });
 });
