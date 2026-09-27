@@ -22,6 +22,18 @@ The reusable SentinelOne-inspired floating navigation and mega menus are generat
 
 ## Deployment
 
-The repository is configured for Cloudflare static asset deployment with `wrangler.jsonc`. The static asset directory is the repository root so `index.html`, CSS, JavaScript, redirects, headers and supporting pages are deployed together.
+The repository is configured for Cloudflare Workers with static assets via `wrangler.jsonc`. The static asset directory is the repository root so `index.html`, CSS, JavaScript, redirects, headers and supporting pages are deployed together. `worker.js` is the Worker entry point: it serves static assets for every route except `/api/submit`, which it handles directly.
 
 Changes pushed to `main` should trigger the connected Cloudflare deployment when the GitHub integration is enabled.
+
+## Contact and consultation forms
+
+`talk-to-us.html` and `contact.html` submit via `fetch` to `POST /api/submit` (handled by `worker.js`), which sends the message through [Resend](https://resend.com) instead of opening the visitor's own email client. `talk-to-us.html` submissions go to `kote.dzadzamia@sunspectre.com`; `contact.html` submissions go to `hello@sunspectre.com` — the recipient is chosen server-side from the form's `data-form` attribute, never from client input, so the endpoint can't be used to relay mail to an arbitrary address.
+
+To activate delivery:
+
+1. Sign up at [resend.com](https://resend.com) and verify the `sunspectre.com` sending domain (adds a few DNS TXT/CNAME records for SPF/DKIM — this does not touch existing MX records, so inbound mail such as Outlook/M365 is unaffected).
+2. Create an API key in Resend.
+3. Set it as a Worker secret: `wrangler secret put RESEND_API_KEY` (or add it as an encrypted environment variable in the Cloudflare dashboard under the Worker's Settings → Variables).
+
+Until the secret is set, the endpoint returns a 500 and the form shows an inline error rather than silently failing.
